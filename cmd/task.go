@@ -81,7 +81,11 @@ func Run(tasks []Task) {
 			ids = append(ids, t.id)
 		}
 
-		newId := slices.Max(ids) + 1
+		newId := 1
+
+		if len(ids) >= 1 {
+			newId = slices.Max(ids) + 1
+		}
 
 		newTask := Task{id: newId, value: pos[0], done: false}
 		err := WriteTask(newTask, TasksPath)
