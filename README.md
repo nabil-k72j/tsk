@@ -15,7 +15,6 @@ You can add tasks, list them, delete them, and toggle them as done/undone.
 * Delete tasks by ID
 * Toggle completion status
 * Persistent CSV storage
-* No dependencies besides Go’s standard library
 
 ---
 
@@ -172,5 +171,5 @@ Deleted task #2
 
 ## 📜 License
 
-MIT, Apache, or any license you prefer — add it here.
+MIT
 
