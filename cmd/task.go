@@ -7,6 +7,8 @@ import (
 	"os"
 	"slices"
 	"strconv"
+
+	"github.com/charmbracelet/lipgloss"
 )
 
 var (
@@ -109,37 +111,6 @@ func (t *Task) IsDone() string {
 		return "Finished"
 	} else {
 		return "Unfinished"
-	}
-}
-
-const (
-	Red   = "\033[31m"
-	Green = "\033[32m"
-	Reset = "\033[0m"
-)
-
-func DisplayTasks(tasks []Task) {
-
-	if len(tasks) < 1 {
-		fmt.Println("No tasks to display")
-	}
-
-	for _, t := range tasks {
-		color := Red
-
-		if t.done {
-			color = Green
-		}
-
-		fmt.Printf(
-			"-------------------------\n"+
-				"Id:     %v\n"+
-				"Task:   %v\n"+
-				"Status: %s%v%s\n",
-			t.id,
-			t.value,
-			color, t.IsDone(), Reset,
-		)
 	}
 }
 
@@ -375,4 +346,54 @@ func DeleteTask(id int) error {
 	}
 
 	return nil
+}
+
+var (
+	titleStyle = lipgloss.NewStyle().
+			Bold(true).
+			Foreground(lipgloss.Color("39")).
+			MarginBottom(1)
+
+	taskBoxStyle = lipgloss.NewStyle().
+			Border(lipgloss.RoundedBorder()).
+			BorderForeground(lipgloss.Color("240")).
+			Padding(0, 1).
+			MarginBottom(1)
+
+	idStyle = lipgloss.NewStyle().
+		Foreground(lipgloss.Color("240")).
+		Bold(true)
+
+	doneStyle = lipgloss.NewStyle().
+			Foreground(lipgloss.Color("42")).
+			Bold(true)
+
+	pendingStyle = lipgloss.NewStyle().
+			Foreground(lipgloss.Color("214"))
+)
+
+func DisplayTasks(tasks []Task) {
+	if len(tasks) < 1 {
+		fmt.Println("\n  No tasks to display")
+		return
+	}
+
+	fmt.Println(titleStyle.Render("Tasks"))
+
+	for _, t := range tasks {
+		var status string
+		if t.done {
+			status = doneStyle.Render("✓ Done")
+		} else {
+			status = pendingStyle.Render("○ Pending")
+		}
+
+		content := fmt.Sprintf("%s  %s\n%s",
+			idStyle.Render(fmt.Sprintf("#%d", t.id)),
+			t.value,
+			status,
+		)
+
+		fmt.Println(taskBoxStyle.Render(content))
+	}
 }
