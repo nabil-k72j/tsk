@@ -11,6 +11,7 @@ You can add tasks, list them, delete them, and toggle them as done/undone.
 * Add tasks with a simple command:
   `tsk "Buy groceries"`
 * List all tasks or limit the number shown
+* Update the value of a task by ID
 * Delete tasks by ID
 * Toggle completion status
 * Persistent CSV storage
